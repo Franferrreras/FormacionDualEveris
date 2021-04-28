@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<configuration debug="true">
+
+	<!-- VARIABLE PARA LA FECHA -->
+	<timestamp key="LogDateVar" datePattern="dd-MM-yyyy" />
+	
+	<!-- ROLLINGFILEAPPENDER -->
+	<appender name = "TuberiaLogback"
+		class = "ch.qos.logback.core.rolling.RollingFileAppender">
+		
+		<!-- FICHERO DONDE DESEMBOCA LA TUBERÍA -->
+		<file>C://dev//logs//ficheroSalida-${logDateVar}.log</file>
+		
+		<!-- PARTICION O GESTION DEL FICHERO -->
+		<rollingPolicy class = "ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<filenamePattern>C://dev//logs//ficheroSalida-${logDateVar}.%i.logDual.zip</filenamePattern>
+		
+			<!-- CANTIDAD DE FICHEROS (PARTIDOS) -->
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+		
+		<!-- INDICA CUANDO DEBE SALTAR LA POLITICA DE PARTICION -->
+		<triggeringPolicy class = "ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50KB</maxFileSize>
+		</triggeringPolicy>
+		
+		<!-- FORMA EN LA QUE SE PINTA LA INFORMACION DEL FICHERO (TRAZA / LOG) -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- LOGGER ROOT (CONFIGURADO AL NIVEL INFO QUE SALE POR TUBERIA) -->
+	<root level = "debug">
+		<appender-ref ref = "TuberiaLogback" />
+	</root>
+</configuration>
+
+
+
